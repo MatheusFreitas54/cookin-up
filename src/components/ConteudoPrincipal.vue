@@ -5,10 +5,25 @@ import Tag from './Tag.vue';
 export default {
    data() {
       return {
-         ingredientes: ['Alho', 'Manteiga', 'Orégano']
+         ingredientes: [] as string[]
       }
    },
-   components: { SelecionarIngredientes, Tag }
+   components: { SelecionarIngredientes, Tag },
+   methods: {
+
+      adicionarIngrediente(ingrediente: string) {
+         if (!this.ingredientes.includes(ingrediente)) {
+            this.ingredientes.push(ingrediente);
+         }
+      },
+
+      removerIngrediente(ingrediente: string) {
+         const index = this.ingredientes.indexOf(ingrediente);
+         if (index !== -1) {
+            this.ingredientes.splice(index, 1);
+         }
+      }
+   }
 }
 </script>
 
@@ -32,7 +47,10 @@ export default {
 
       </section>
 
-      <SelecionarIngredientes />
+      <SelecionarIngredientes
+         @adicionar-ingrediente="adicionarIngrediente($event)"
+         @remover-ingrediente="removerIngrediente($event)"
+      />
    </main>
 </template>
 
@@ -46,6 +64,7 @@ export default {
    flex-direction: column;
    align-items: center;
    gap: 5rem;
+   margin-bottom: -80px;
 }
 
 .sua-lista-texto {

@@ -10,12 +10,25 @@
          return {
             selecionado: false
          }
-      }
+      },
+      methods: {
+         aoClicar() {
+            this.selecionado = !this.selecionado;
+
+         // Emitir eventos diferentes para adicionar e remover
+            if (this.selecionado) {
+               this.$emit('adicionarIngrediente', this.ingrediente);
+            } else {
+               this.$emit('removerIngrediente', this.ingrediente);
+            }
+         }
+      },
+      emits: ['adicionarIngrediente', 'removerIngrediente']
    }
 </script>
 
 <template>
-   <button class="ingrediente" @click="selecionado = !selecionado"
+   <button class="ingrediente" @click="aoClicar()"
    :aria-pressed="selecionado">
       <Tag :texto="ingrediente" :ativa="selecionado" />
    </button>
