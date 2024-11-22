@@ -1,17 +1,23 @@
 <script lang="ts">
 export default {
-   methods: {
-      aoClicar() {
-         window.alert('Botão sem função... somente visual')
+   // methods: {
+   //    aoClicar() {
+   //       window.alert('Botão sem função... somente visual')
+   //    }
+   // },
+   props: {
+      texto: {
+         type: String,
+         required: true
       }
-   },
+   }
 }
 </script>
 
 <template>
    <div class="buscar">
-      <button @click="aoClicar()">
-         Buscar receitas!
+      <button>
+         {{texto}}
       </button>
    </div>
 </template>

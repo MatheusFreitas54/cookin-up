@@ -18,7 +18,6 @@
    }
 
    .rodape > h3 {
-      border: 1px solid red;
       color: white;
       font-size: 20px;
       font-weight: 500;

@@ -1,14 +1,19 @@
 <script lang="ts">
+import MostrarReceitas from './MostrarReceitas.vue';
 import SelecionarIngredientes from './SelecionarIngredientes.vue';
+import SuaLista from './SuaLista.vue';
 import Tag from './Tag.vue';
+
+type Pagina = 'SelecionarIngredientes' | 'MostrarReceitas';
 
 export default {
    data() {
       return {
-         ingredientes: [] as string[]
+         ingredientes: [] as string[],
+         conteudo: 'SelecionarIngredientes' as Pagina
       }
    },
-   components: { SelecionarIngredientes, Tag },
+   components: { SelecionarIngredientes, Tag, MostrarReceitas, SuaLista },
    methods: {
 
       adicionarIngrediente(ingrediente: string) {
@@ -22,34 +27,30 @@ export default {
          if (index !== -1) {
             this.ingredientes.splice(index, 1);
          }
+      },
+
+      navegar(pagina: Pagina) {
+         this.conteudo = pagina;
       }
+
+      
    }
 }
 </script>
 
 <template>
    <main class="conteudo-principal">
-      <section>
-         <span class="subtitulo-lg sua-lista-texto">
-            Sua Lista:
-         </span>
+      <SuaLista :ingredientes="ingredientes" />
 
-         <ul v-if="ingredientes.length" class="ingredientes-sua-lista">
-            <li v-for="ingrediente in ingredientes" :key="ingrediente">
-               <Tag :texto="ingrediente" ativa />
-            </li>
-         </ul>
-
-         <p v-else class="paragrafo lista-vazia">
-            <img src="../assets/images/icones/lista-vazia.svg" alt="ícone de pesquisa">
-            Sua lista está vazia, selecione ingredientes para iniciar.
-         </p>
-
-      </section>
-
-      <SelecionarIngredientes
+      <SelecionarIngredientes v-if="conteudo === 'SelecionarIngredientes'"
          @adicionar-ingrediente="adicionarIngrediente($event)"
          @remover-ingrediente="removerIngrediente($event)"
+         @buscar-receitas="navegar('MostrarReceitas')"
+      />
+
+      <MostrarReceitas
+         v-else-if="conteudo === 'MostrarReceitas'"
+         @editar-receitas="navegar('SelecionarIngredientes')"
       />
    </main>
 </template>
